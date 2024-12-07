@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Car Wheel Animation with Click Counter</title>
+    <title>Car Wheel Animation</title>
     <style>
         body {
             display: flex;
@@ -24,9 +24,6 @@
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
             transition: transform 0.1s linear;
             margin-bottom: 20px;
-        }
-        #wheel:hover {
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
         }
         .spoke {
             position: absolute;
@@ -100,40 +97,31 @@
         const clickCounter = document.getElementById('click-counter');
         let rotation = 0;
         let rotationSpeed = 0;
-        let targetSpeed = 1;
-        let acceleration = 0.1;
-        let deceleration = 0.05;
+        const maxSpeed = 20;
+        const friction = 0.98;
         let clickCount = 0;
 
         function rotateWheel() {
             rotation += rotationSpeed;
             wheel.style.transform = `rotate(${rotation}deg)`;
 
-            if (rotationSpeed < targetSpeed) {
-                rotationSpeed += acceleration;
-            } else if (rotationSpeed > targetSpeed) {
-                rotationSpeed -= deceleration;
-            }
+            rotationSpeed *= friction; // Замедление вращения
+            if (Math.abs(rotationSpeed) < 0.01) rotationSpeed = 0; // Остановка
 
             requestAnimationFrame(rotateWheel);
         }
 
-        function handleStart() {
-            targetSpeed = 5;
+        function handleClick() {
+            rotationSpeed += 5; // Добавляем скорость при клике
+            if (rotationSpeed > maxSpeed) rotationSpeed = maxSpeed; // Ограничение скорости
             clickCount++;
             clickCounter.textContent = `Clicks: ${clickCount}`;
         }
 
-        function handleEnd() {
-            targetSpeed = 0;
-        }
+        wheel.addEventListener('mousedown', handleClick);
+        wheel.addEventListener('touchstart', handleClick);
 
-        document.addEventListener('mousedown', handleStart);
-        document.addEventListener('mouseup', handleEnd);
-        document.addEventListener('touchstart', handleStart);
-        document.addEventListener('touchend', handleEnd);
-
-        // Start initial rotation
+        // Запуск анимации
         rotateWheel();
     </script>
 </body>
