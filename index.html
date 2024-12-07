@@ -100,6 +100,7 @@
         const maxSpeed = 20;
         const friction = 0.98;
         let clickCount = 0;
+        let lastClickTime = 0;
 
         function rotateWheel() {
             rotation += rotationSpeed;
@@ -111,11 +112,20 @@
             requestAnimationFrame(rotateWheel);
         }
 
-        function handleClick() {
+        function handleClick(event) {
+            const currentTime = new Date().getTime();
+            if (currentTime - lastClickTime < 300) return; // Игнорируем повторяющиеся клики
+            lastClickTime = currentTime;
+
             rotationSpeed += 5; // Добавляем скорость при клике
             if (rotationSpeed > maxSpeed) rotationSpeed = maxSpeed; // Ограничение скорости
             clickCount++;
             clickCounter.textContent = `Clicks: ${clickCount}`;
+
+            // Предотвращаем стандартное поведение для touchstart
+            if (event.type === 'touchstart') {
+                event.preventDefault();
+            }
         }
 
         wheel.addEventListener('mousedown', handleClick);
