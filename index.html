@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Car Wheel Animation</title>
+    <title>Car Wheel Animation with Click Counter</title>
     <style>
         body {
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
@@ -22,6 +23,7 @@
             background: radial-gradient(circle, #3498db, #2ecc71);
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
             transition: transform 0.1s linear;
+            margin-bottom: 20px;
         }
         #wheel:hover {
             box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
@@ -70,6 +72,14 @@
             transform: translate(-50%, -50%);
             box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
         }
+        #click-counter {
+            font-size: 24px;
+            color: #333;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 10px 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        }
     </style>
 </head>
 <body>
@@ -84,13 +94,16 @@
         <div class="spoke"></div>
         <div id="hub"></div>
     </div>
+    <div id="click-counter">Clicks: 0</div>
     <script>
         const wheel = document.getElementById('wheel');
+        const clickCounter = document.getElementById('click-counter');
         let rotation = 0;
         let rotationSpeed = 0;
         let targetSpeed = 1;
         let acceleration = 0.1;
         let deceleration = 0.05;
+        let clickCount = 0;
 
         function rotateWheel() {
             rotation += rotationSpeed;
@@ -107,6 +120,8 @@
 
         function handleStart() {
             targetSpeed = 5;
+            clickCount++;
+            clickCounter.textContent = `Clicks: ${clickCount}`;
         }
 
         function handleEnd() {
