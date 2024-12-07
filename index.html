@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Wheel Animation</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #ff7e5f, #feb47b);
+            font-family: Arial, sans-serif;
+        }
+        #wheel {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #3498db, #2ecc71);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            transition: transform 0.1s linear;
+        }
+        #wheel:hover {
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+        .spoke {
+            position: absolute;
+            width: 20px;
+            height: 100px;
+            background-color: #ecf0f1;
+            top: 50%;
+            left: 50%;
+            transform-origin: center;
+        }
+        .spoke:nth-child(1) {
+            transform: translate(-50%, -50%) rotate(0deg);
+        }
+        .spoke:nth-child(2) {
+            transform: translate(-50%, -50%) rotate(45deg);
+        }
+        .spoke:nth-child(3) {
+            transform: translate(-50%, -50%) rotate(90deg);
+        }
+        .spoke:nth-child(4) {
+            transform: translate(-50%, -50%) rotate(135deg);
+        }
+        .spoke:nth-child(5) {
+            transform: translate(-50%, -50%) rotate(180deg);
+        }
+        .spoke:nth-child(6) {
+            transform: translate(-50%, -50%) rotate(225deg);
+        }
+        .spoke:nth-child(7) {
+            transform: translate(-50%, -50%) rotate(270deg);
+        }
+        .spoke:nth-child(8) {
+            transform: translate(-50%, -50%) rotate(315deg);
+        }
+        #hub {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 60px;
+            height: 60px;
+            background-color: #ecf0f1;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <div id="wheel">
+        <div class="spoke"></div>
+        <div class="spoke"></div>
+        <div class="spoke"></div>
+        <div class="spoke"></div>
+        <div class="spoke"></div>
+        <div class="spoke"></div>
+        <div class="spoke"></div>
+        <div class="spoke"></div>
+        <div id="hub"></div>
+    </div>
+    <script>
+        const wheel = document.getElementById('wheel');
+        let rotation = 0;
+        let rotationSpeed = 0;
+        let targetSpeed = 1;
+        let acceleration = 0.1;
+        let deceleration = 0.05;
+
+        function rotateWheel() {
+            rotation += rotationSpeed;
+            wheel.style.transform = `rotate(${rotation}deg)`;
+
+            if (rotationSpeed < targetSpeed) {
+                rotationSpeed += acceleration;
+            } else if (rotationSpeed > targetSpeed) {
+                rotationSpeed -= deceleration;
+            }
+
+            requestAnimationFrame(rotateWheel);
+        }
+
+        function handleStart() {
+            targetSpeed = 5;
+        }
+
+        function handleEnd() {
+            targetSpeed = 0;
+        }
+
+        document.addEventListener('mousedown', handleStart);
+        document.addEventListener('mouseup', handleEnd);
+        document.addEventListener('touchstart', handleStart);
+        document.addEventListener('touchend', handleEnd);
+
+        // Start initial rotation
+        rotateWheel();
+    </script>
+</body>
+</html>
